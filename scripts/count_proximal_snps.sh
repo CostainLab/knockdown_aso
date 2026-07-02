@@ -9,8 +9,8 @@
 set -euo pipefail
 
 # --- input files ---
-GREEDY_TSV='/hpf/projects/gregorycostain/kd_aso/greedy_out/g2p_logofunc_analysis/master_greedy_selected_snps.tsv'
-COMMON_TSV='/hpf/projects/gregorycostain/kd_aso/1000G_snps/g2p_logofunc_analysis/common_snp_coordinates.tsv'
+GREEDY_TSV='/hpf/projects/gregorycostain/kd_aso/greedy_out/master_greedy_selected_snps_repeat_filtered_30Jun26.tsv'
+COMMON_TSV='/hpf/projects/gregorycostain/kd_aso/1000G_snps/common_snp_coordinates.tsv'
 
 # --- outputs ---
 GREEDY_BED="/hpf/projects/gregorycostain/kd_aso/proximal_snps/greedy_snps.bed"
@@ -34,31 +34,22 @@ awk 'BEGIN{OFS="\t"} NR>1 {
 
 # Convert common TSV → BED
 awk 'BEGIN{OFS="\t"} NR>1 {
-    gene=$1
     chr=$2
     pos=$3
     snp_id=$4
-    print chr, pos-1, pos, snp_id, gene
-}' "$COMMON_TSV" > "$COMMON_BED"
+    print chr, pos-1, pos, snp_id
+}' "$COMMON_TSV" | sort -u > "$COMMON_BED"
 
-echo "Running bedtools window (±20 bp)..."
+echo "Running bedtools window (±19 bp)..."
 
-# count common SNPs within ±20 bp of each greedy SNP, exclude the greedy SNP itself
-bedtools window -a "$GREEDY_BED" -b "$COMMON_BED" -w 19 |
-awk 'BEGIN{OFS="\t"}
-{
-    key=$1 "\t" $2 "\t" $3 "\t" $4 "\t" $5
+# count common SNPs within ±19 bp of each greedy SNP, exclude the greedy SNP itself
+bedtools window -c -a "$GREEDY_BED" -b "$COMMON_BED" -w 19 |
+awk 'BEGIN{OFS="\t"} {
+    corrected_count = $6 - 1
 
-    # initialize count
-    if (!(key in count)) count[key]=0
+    if (corrected_count < 0) corrected_count = 0
 
-    # only count if NOT same SNP (excludes the greedy SNP itself)
-    if ($4 != $9) {
-        count[key]++
-    }
-}
-END {
-    for (k in count) print k, count[k]
+    print $1, $2, $3, $4, $5, corrected_count
 }' > /hpf/projects/gregorycostain/kd_aso/proximal_snps/counts.bed
 
 echo "Formatting final output..."

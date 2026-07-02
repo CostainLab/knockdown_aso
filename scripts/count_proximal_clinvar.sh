@@ -9,7 +9,7 @@
 set -euo pipefail
 
 # --- input files ---
-GREEDY_TSV='/hpf/projects/gregorycostain/kd_aso/greedy_out/g2p_logofunc_analysis/master_greedy_selected_snps.tsv'
+GREEDY_TSV='/hpf/projects/gregorycostain/kd_aso/greedy_out/master_greedy_selected_snps_repeat_filtered_30Jun26.tsv'
 CLINVAR_TSV='/hpf/projects/gregorycostain/kd_aso/clinvar/variant_summary/clinvar_gof_12Jun26.tsv'
 
 # --- outputs ---
@@ -38,24 +38,19 @@ awk 'BEGIN{OFS="\t"} NR>1 {
     gene=$6
     chr="chr"$1
     pos=$2
-    print chr, pos-1, pos, gene
-}' "$CLINVAR_TSV" > "$CLINVAR_BED"
+    ref=$3
+    alt=$4
+    print chr, pos-1, pos, gene, ref, alt
+}' "$CLINVAR_TSV" | sort -u > "$CLINVAR_BED"
 
 # Remove duplicate clinvar variants if present
 sort -k1,1 -k2,2n -k3,3n "$CLINVAR_BED" | uniq > "${CLINVAR_BED}.tmp" && mv "${CLINVAR_BED}.tmp" "$CLINVAR_BED"
 
 echo "Running bedtools window (±19 bp + variant = 20 bp)..."
 
-# count common SNPs within ±20 bp of each greedy SNP, exclude the greedy SNP itself
-bedtools window -a "$GREEDY_BED" -b "$CLINVAR_BED" -w 19 |
-awk 'BEGIN{OFS="\t"}
-{
-    key=$1 "\t" $2 "\t" $3 "\t" $4 "\t" $5
-    count[key]++
-}
-END {
-    for (k in count) print k, count[k]
-}' > /hpf/projects/gregorycostain/kd_aso/clinvar/counts.bed
+# count common SNPs within ±19 bp of each greedy SNP, exclude the greedy SNP itself
+bedtools window -c -a "$GREEDY_BED" -b "$CLINVAR_BED" -w 19 \
+> /hpf/projects/gregorycostain/kd_aso/clinvar/counts.bed
 
 echo "Formatting final output..."
 
