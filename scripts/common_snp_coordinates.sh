@@ -6,12 +6,14 @@
 #SBATCH --mem=32G
 #SBATCH --cpus-per-task=2
 
+# Integrated into extract_common_snps_per_gene
+
 module load bcftools
 
-INDIR='/hpf/projects/gregorycostain/kd_aso/1000G_snps/g2p_logofunc_analysis'
+INDIR='/hpf/projects/gregorycostain/kd_aso/1000G_snps'
 
 # initialize TSV file
-OUT='/hpf/projects/gregorycostain/kd_aso/1000G_snps/g2p_logofunc_analysis/common_snp_coordinates.tsv'
+OUT='/hpf/projects/gregorycostain/kd_aso/1000G_snps/common_snp_coordinates.tsv'
 echo -e "gene\tchr\tpos\tsnp_id" > "$OUT"
 
 for gene_snps in "$INDIR"/*.common_snps.vcf.gz; do

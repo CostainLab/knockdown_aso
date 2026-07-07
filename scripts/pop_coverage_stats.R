@@ -104,12 +104,17 @@ cov_wide <- read_tsv("/Volumes/gregorycostain/kd_aso/coverage/g2p_logofunc_analy
 # Excluding SIK1 bc there were no SNPs pulled for that gene
 ppln_cov <- cov_wide[(cov_wide$gene != "SIK1"),c(1,17:21)]
 
+ppln_q1 <- apply(ppln_cov[,2:6], 2, quantile, probs = 0.25, na.rm = TRUE)
+ppln_q3 <- apply(ppln_cov[,2:6], 2, quantile, probs = 0.75, na.rm = TRUE)
 ppln_mean <- apply(ppln_cov[,2:6], 2, mean)
 ppln_median <- apply(ppln_cov[,2:6], 2, median)
+
 ppln_cov_stats <- data.frame(
   super_pop = sub("_.*", "", names(ppln_mean)),
   mean_coverage = ppln_mean,
-  median_coverage = ppln_median
+  median_coverage = ppln_median,
+  q1_median = ppln_q1,
+  q3_median = ppln_q3
 )
 
 rownames(ppln_cov_stats) = NULL

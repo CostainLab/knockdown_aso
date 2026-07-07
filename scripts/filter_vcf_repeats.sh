@@ -8,9 +8,9 @@
 
 module load bcftools
 
-INDIR='/hpf/projects/gregorycostain/kd_aso/1000G_snps/g2p_logofunc_analysis'
+INDIR='/hpf/projects/gregorycostain/kd_aso/1000G_snps/'
 OUTDIR='/hpf/projects/gregorycostain/kd_aso/1000G_snps_filtered'
-REPEATS='/hpf/projects/gregorycostain/kd_aso/repeats/master_repeats.bed.gz'
+REPEATS='/hpf/projects/gregorycostain/kd_aso/repeats/master_repeats_final.bed.gz'
 SUMMARY="${OUTDIR}/filtered_snp_summary.tsv"
 
 mkdir -p "$OUTDIR"
@@ -29,10 +29,10 @@ fi
 for vcf in $vcfs; do
 
     # extract base name
-    base=$(basename "$vcf" .vcf.gz)
+    base=$(basename "$vcf" .common_snps.vcf.gz)
 
     # generate output names
-    filtered_vcf="${OUTDIR}/${base}_filtered.vcf.gz"
+    filtered_vcf="${OUTDIR}/${base}.common_snps_filtered.vcf.gz"
 
     echo "Processing $base..."
 

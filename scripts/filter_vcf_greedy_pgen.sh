@@ -17,7 +17,7 @@ shopt -s nullglob
 # define directories
 INDIR='/hpf/projects/gregorycostain/kd_aso/1000G_highcov_unrelated'
 OUTDIR='/hpf/projects/gregorycostain/kd_aso/1000G_LD'
-SNPS='/hpf/projects/gregorycostain/kd_aso/greedy_out/g2p_logofunc_analysis/greedy_snp_ids.txt'
+SNPS='/hpf/projects/gregorycostain/kd_aso/greedy_out/greedy_snp_ids.txt'
 POP_DIR='/hpf/projects/gregorycostain/kd_aso/metadata/population_lists'
 SEX='/hpf/projects/gregorycostain/kd_aso/metadata/1000G_sex.txt'
 
@@ -59,7 +59,7 @@ for pop_file in "$POP_DIR"/*.txt; do
         if [[ -s "$filtered_vcf" ]] && [[ $(bcftools view -H "$filtered_vcf" | wc -l) -gt 0 ]]; then
             bcftools index -t "$filtered_vcf"
 
-            # convert ONCE
+            # convert to pgen
             plink2 --vcf "$filtered_vcf" \
                    --make-pgen \
                    --split-par hg38 \

@@ -9,11 +9,11 @@
 mkdir -p greedy_out logs
 
 for vcf in 1000G_snps_filtered/*.common_snps_filtered.vcf.gz; do
-    base=$(basename "$vcf" .common_snps.vcf.gz)
+    base=$(basename "$vcf" .common_snps_filtered.vcf.gz)
 
     echo "Running greedy algorithm for: $base"
 
-    python scripts/greedy_snp_coverage_v2.py \
+    python scripts/greedy_snp_coverage.py \
         --vcf "$vcf" \
         --out-prefix "greedy_out/${base}"
 done

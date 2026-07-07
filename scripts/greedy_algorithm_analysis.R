@@ -9,7 +9,7 @@ library(ggplot2)
 library(scales)
 
 # Load in master table of greedy algorithm output 
-master = read.csv("greedy_out/master_greedy_selected_snps.tsv", sep = "\t")
+master = read.csv("greedy_out/master_greedy_selected_snps_repeat_filtered_29Jun26.tsv", sep = "\t")
 
 # 1. Gene-level summary
 
@@ -43,7 +43,7 @@ gene_summary = master %>%
   ) %>%
   arrange(desc(max_coverage), snps_to_90)
 
-write.csv(gene_summary, "analysis/gene_level_tractability_summary.csv", row.names = FALSE)
+write.csv(gene_summary, "analysis/gene_level_tractability_summary_29Jun26.csv", row.names = FALSE)
 
 # -----------------------------
 # 2. Overall summary numbers
@@ -80,7 +80,7 @@ overall_summary = gene_summary %>%
     )
   )
 
-write.csv(overall_summary, "analysis/overall_tractability_summary.csv", row.names = FALSE)
+write.csv(overall_summary, "analysis/overall_tractability_summary_29Jun26.csv", row.names = FALSE)
 
 # -----------------------------
 # 3. Top tractable genes
@@ -91,7 +91,7 @@ top_genes_by_5_snps = gene_summary %>%
   select(gene, n_selected_snps, max_coverage, coverage_after_1_snp, coverage_after_3_snps, coverage_after_5_snps, snps_to_80, snps_to_90, snps_to_95) %>%
   head(25)
 
-write.csv(top_genes_by_5_snps, "analysis/top_25_genes_by_5_snp_coverage.csv", row.names = FALSE)
+write.csv(top_genes_by_5_snps, "analysis/top_25_genes_by_5_snp_coverage_29Jun26.csv", row.names = FALSE)
 
 # -----------------------------
 # 4. Plot: maximum coverage distribution
@@ -122,7 +122,7 @@ p1 = ggplot(gene_summary, aes(x = max_coverage)) +
 
 p1 
 
-ggsave("analysis/max_coverage_distribution.png", p1, width = 7, height = 5, dpi = 300)
+ggsave("analysis/max_coverage_distribution_29Jun26.png", p1, width = 7, height = 5, dpi = 300)
 
 # -----------------------------
 # 5. Plot: SNPs needed to reach 80% and 90%
@@ -178,7 +178,7 @@ p2 = ggplot(snps_threshold_long, aes(x = n_snps)) +
 
 p2
 
-ggsave("analysis/snps_needed_for_coverage_thresholds.png", p2, width = 7, height = 5, dpi = 300)
+ggsave("analysis/snps_needed_for_coverage_thresholds_29Jun26.png", p2, width = 7, height = 5, dpi = 300)
 
 # -----------------------------
 # 6. Plot: greedy coverage curves for top example genes
@@ -218,12 +218,12 @@ p3 = ggplot(curve_data, aes(x = rank, y = cumulative_fraction, group = gene, col
 
 p3
 
-ggsave("analysis/top_gene_greedy_coverage_curves.png", p3, width = 5, height = 5, dpi = 300)
+ggsave("analysis/top_gene_greedy_coverage_curves_29Jun26.png", p3, width = 5, height = 5, dpi = 300)
 
-# Plot top 10 genes in high tractability category
+# Plot top 10 genes in high feasibility category
 
 example_genes = gene_summary %>%
-  filter(tractability_tier == "High tractability") %>%
+  filter(tractability_tier == "High Feasibility") %>%
   arrange(desc(max_coverage)) %>%
   slice_head(n = 10) %>%
   pull(gene)
@@ -257,7 +257,7 @@ p3.1 = ggplot(curve_data, aes(x = rank, y = cumulative_fraction, group = gene, c
 
 p3.1
 
-ggsave("analysis/top_gene_greedy_coverage_curves_htrac.png", p3.1, width = 5, height = 5, dpi = 300)
+ggsave("analysis/top_gene_greedy_coverage_curves_hfeas_29Jun26.png", p3.1, width = 5, height = 5, dpi = 300)
 
 # -----------------------------
 # 7. Tractability tier counts
@@ -311,7 +311,7 @@ p4 = ggplot(
 
 p4 
 
-ggsave("analysis/tractability_tier_counts.png", p4, width = 7, height = 5, dpi = 300)
+ggsave("analysis/tractability_tier_counts_29Jun26.png", p4, width = 7, height = 5, dpi = 300)
 
 # -----------------------------
 # 8. Print quick abstract-friendly summary

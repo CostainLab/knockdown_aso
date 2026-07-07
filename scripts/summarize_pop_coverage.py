@@ -5,7 +5,7 @@ import sys
 
 def main():
     # grab every tally file
-    file_list = glob.glob("coverage/g2p_logofunc_analysis/*.sample_coverage_tally.tsv")
+    file_list = glob.glob("coverage/*.sample_coverage_tally.tsv")
 
     if not file_list:
         print("No files found")

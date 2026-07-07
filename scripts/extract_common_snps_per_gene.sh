@@ -6,7 +6,10 @@
 #SBATCH --mem=16G
 #SBATCH --cpus-per-task=2
 
+module purge
+module load htslib
 module load bcftools
+
 
 BED="bed_files/gof_gene_regions_g2p_logo.bed"
 VCF_DIR="1000G_highcov_unrelated"
@@ -16,6 +19,10 @@ mkdir -p "$OUT_DIR" logs
 
 SUMMARY="${OUT_DIR}/common_snp_counts.tsv"
 echo -e "gene\ttranscript\tchrom\tstart\tend\toutput_vcf\tn_snps" > "$SUMMARY"
+
+# Generate tsv with location of each SNP for later ------------------------
+TSV_OUT="${OUT_DIR}/common_snp_coordinates.tsv"
+echo -e "gene\tchr\tstart\tsnp_id" > "$TSV_OUT"
 
 while read -r chrom start end name score strand; do
     # Skip empty lines
@@ -49,13 +56,7 @@ while read -r chrom start end name score strand; do
     gene=$(echo "$name" | cut -d'|' -f1)
     transcript=$(echo "$name" | cut -d'|' -f2)
 
-    # Generate tsv with location of each SNP for later ------------------------
-    TSV_OUT="${OUT_DIR}/common_snp_coordinates.tsv"
-
-    if [[ ! -f "$TSV_OUT" ]]; then
-        echo -e "gene\tchr\tstart\tsnp_id" > "$TSV_OUT"
-    fi 
-
+    # append location of each common snp to generated file ------------------------
     bcftools query -f '%CHROM\t%POS\t%ID\n' "$out_vcf" |
     awk -v gene="$gene" '{print gene "\t" $1 "\t" $2 "\t" $3}' >> "$TSV_OUT"
     # ------------------------------------------------------------------------
