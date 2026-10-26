@@ -4,7 +4,7 @@ This repository contains the scripts used for the manuscript "Population-scale g
 
 **Top-level overview (as implemented in the `Snakefile`):**
 
-NOTE: Folders 3-6 will be created during the pipeline.
+NOTE: Directories #3-6 will be created during the pipeline.
 
 - `1-BED_File`: Generates BED file containing coordinates of genes of interest (MANE-Select transcript) with `generate_gene_bed_files.py`.
 - `2-1kGP_VCF`: Directory containing 1kGP VCF files used for greedy algorithm.
