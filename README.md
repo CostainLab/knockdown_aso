@@ -1,6 +1,6 @@
 # SNV target selection for knockdown ASO pipeline
 
-This repository contains the scripts used for the manuscript "Population-scale genome-wide prioritization of targets for allele-specific antisense oligonucleotide therapy design". The main scripts have been integrated into a Snakemake workflow (Snakefile) that provides a reproducible run order that mirrors the manual steps used for the published analysis.
+This repository contains the scripts used for the manuscript "Population-scale genome-wide prioritization of targets for allele-specific antisense oligonucleotide therapy design". The main scripts to run the greedy algorithm with 1kGP data have been integrated into a Snakemake workflow (Snakefile) that provides a reproducible run order that mirrors the manual steps used for the published analysis.
 
 **Top-level overview (as implemented in the `Snakefile`):**
 
@@ -34,8 +34,13 @@ Gene list & Gene annotation file
 1kGP VCF files
 
 - Per-chromosome 1kGP VCF and index files (.vcf.gz and .vcf.gz.tbi) must be added to "2-1kGP_VCF" before running the pipeline.
-- VCF files are publicly available and can be downloaded from https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20220422_3202_phased_SNV_INDEL_SV/ 
+- VCF files are publicly available and can be downloaded from https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20220422_3202_phased_SNV_INDEL_SV/.
+- After downloading, you can filter to exclude the offspring of trios (to reduce relatedness in the dataset) with `metadata/1kGP_unrelated_ids.txt` and, for example, `bcftools` using 1kGP VCF files.
 
+dbSNP file
+
+- To pull rsIDs for SNVs of interest, the file containing rsIDs for each SNV must be downloaded form dbSNP and added to `metadata`
+- Download GCF_000001405.40.gz and GCF_000001405.40.gz.tbi from https://ftp.ncbi.nlm.nih.gov/snp/latest_release/VCF/
 
 **Running the full workflow:**
 
