@@ -1,0 +1,17 @@
+paths:
+  bed_dir: "1-BED_File"
+  vcf_dir: "2-1kGP_VCF"
+  common_snv_dir: "3-Common_SNVs"
+  filtered_snv_dir: "4-Repeat_Filtered_SNVs"
+  greedy_dir: "5-Greedy_Output"
+  results_dir: "6-Overall_Results"
+  logs_dir: "logs"
+  scripts_dir: "scripts"
+  metadata: "metadata"
+
+references:
+  gene_list: "1-BED_File/gene_list.csv"
+  annotation_gtf: "1-BED_File/gencode.v49.annotation.gtf"
+  repeats_bed: "metadata/repeats.bed.gz"
+  dbsnp: "metadata/GCF_000001405.40.gz"
+  popdata: "metadata/20130606_g1k_3202_samples_ped_population.txt"
