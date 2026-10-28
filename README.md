@@ -1,6 +1,6 @@
 # SNV target selection for knockdown ASO pipeline
 
-This repository contains the scripts used for the manuscript "Population-scale genome-wide prioritization of targets for allele-specific antisense oligonucleotide therapy design". The main scripts to run the greedy algorithm with 1kGP data have been integrated into a Snakemake workflow (Snakefile) that provides a reproducible run order that mirrors the manual steps used for the published analysis.
+This repository contains the scripts used for the manuscript "Population-scale genome-wide prioritization of targets for allele-specific antisense oligonucleotide therapy design" ([preprint](https://www.medrxiv.org/content/10.64898/2026.10.26.26366522v1)). The main scripts to run the greedy algorithm with 1kGP data have been integrated into a Snakemake workflow (Snakefile) that provides a reproducible run order that mirrors the manual steps used for the published analysis.
 
 **Top-level overview (as implemented in the `Snakefile`):**
 
