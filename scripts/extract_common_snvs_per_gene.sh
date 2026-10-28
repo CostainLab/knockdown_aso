@@ -27,9 +27,9 @@ while read -r chrom start end name score strand; do
 
     # File for X chrom is named slightly differently
     if [[ "$chrom_no" == "X" ]]; then
-        vcf="${VCF_DIR}/1kGP_high_coverage_Illumina.chrX.filtered.SNV_INDEL_SV_phased_panel.v2_unrelated.vcf.gz"
+        vcf="${VCF_DIR}/1kGP_high_coverage_Illumina.chrX.filtered.SNV_INDEL_SV_phased_panel.v2.vcf.gz"
     else
-        vcf="${VCF_DIR}/1kGP_high_coverage_Illumina.chr${chrom_no}.filtered.SNV_INDEL_SV_phased_panel_unrelated.vcf.gz"
+        vcf="${VCF_DIR}/1kGP_high_coverage_Illumina.chr${chrom_no}.filtered.SNV_INDEL_SV_phased_panel.vcf.gz"
     fi
 
     safe_name=$(echo "$name" | sed 's/|/__/g' | sed 's/[^A-Za-z0-9_.-]/_/g')
