@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-Generate a single regions.bed file for all unique genes in specified gene list csv file.
-Genomic coordinates are pulled from the GENCODE GTF using the MANE Select transcript.
-Each row covers the full transcript span (UTRs + introns + exons) for one gene.
-Output: autosomal_dominant_regions.bed
-"""
 
 import os
 import logging
